@@ -1,0 +1,27 @@
+body {
+    background-color: #f1f4f5;
+}
+.navbar-bg {
+    background-color: #2f376e;
+}
+.list-group-item {
+    border: 1px solid #eee;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03);
+    border-radius: 6px;
+}
+.drag-holder {
+    float: left;
+    font-size: 16px;
+    line-height: 22px !important;
+    color: #d1d2db;
+}
+.drag-holder:hover {
+    cursor: grab;
+}
+.ml-25 {
+    margin-left: 25px;
+}
+section {
+    z-index: unset !important;
+}
