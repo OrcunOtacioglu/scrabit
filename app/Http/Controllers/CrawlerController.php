@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Entities\Crawler;
+use App\Entities\Item;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 
@@ -72,11 +73,33 @@ class CrawlerController extends Controller
     {
         $crawler = Crawler::findOrFail($id);
 
-        return response()->json($crawler->output, 200);
+        return response()->json(json_decode($crawler->output, true), 200);
     }
 
     public function saveOutput(Request $request, $id)
     {
-        dd($request);
+        $crawler = Crawler::findOrFail($id);
+        $output = $request->output;
+
+        for ($i = 0; $i < sizeof($output); $i++) {
+            $item = Item::where('reference', '=', $output[$i]['reference'])->first();
+
+            $output[$i]['name'] = $item->name;
+
+            if (is_array($output[$i]['children'])) {
+                for ($j = 0; $j < sizeof($output[$i]['children']); $j++) {
+                    $item = Item::where('reference', '=', $output[$i]['children'][$j]['reference'])->first();
+
+                    $output[$i]['children'][$j]['name'] = $item->name;
+                }
+            }
+        }
+
+        $crawler->output = json_encode($output, true);
+
+        $crawler->updated_at = Carbon::now();
+        $crawler->save();
+
+        return response()->json($output, 201);
     }
 }

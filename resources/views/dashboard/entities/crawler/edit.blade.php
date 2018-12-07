@@ -35,7 +35,7 @@
                 let serialized = $('.dd').nestable('serialize');
                 dashboard.__vue__.$refs.processor.saveOutput(serialized);
             },
-            maxDepth: 1
+            maxDepth: 2
         });
     </script>
 @stop

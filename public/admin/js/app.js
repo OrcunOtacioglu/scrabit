@@ -30630,7 +30630,7 @@ exports = module.exports = __webpack_require__(43)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -31055,6 +31055,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -31074,6 +31076,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        /**
+         * Get the Crawler Items
+         */
         getItems: function getItems() {
             var _this = this;
 
@@ -31084,6 +31089,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+
+        /**
+         * Get the Process JSON
+         */
         getProcess: function getProcess() {
             var _this2 = this;
 
@@ -31098,6 +31107,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+
+        /**
+         * Save the process JSON into database on change
+         */
         saveProcess: function saveProcess() {
             axios({
                 headers: {
@@ -31126,6 +31139,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+
+        /**
+         * Get the output JSON from database if it is null, generate the output format from process items.
+         */
         getOutputFormat: function getOutputFormat() {
             var _this3 = this;
 
@@ -31140,6 +31157,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+
+        /**
+         * Generates the output format from process items.
+         */
         generateOutput: function generateOutput() {
             for (var i = 0; i < this.process.length; i++) {
                 var singleItem = {
@@ -31149,7 +31170,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.output.push(singleItem);
             }
         },
+
+        /**
+         * Saves the output format on change
+         * @param jsonData
+         */
         saveOutput: function saveOutput(jsonData) {
+            var _this4 = this;
+
             this.rawOutput = jsonData;
 
             axios({
@@ -31168,6 +31196,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                         message: 'Output format changed successfully.',
                         position: 'topRight'
                     });
+                    _this4.getOutputFormat();
                 } else {
                     iziToast.error({
                         title: 'Error!',
@@ -33324,7 +33353,12 @@ var render = function() {
                   },
                   [
                     _c("div", { staticClass: "dd-handle" }, [
-                      _vm._v(_vm._s(format.name))
+                      _c("i", { staticClass: "fa fa-bars" }),
+                      _vm._v(
+                        " " +
+                          _vm._s(format.name) +
+                          "\n                            "
+                      )
                     ])
                   ]
                 )
