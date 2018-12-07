@@ -75,6 +75,7 @@
             return {
                 crawlerID: document.getElementById('dashboard').dataset.crawler,
                 process:[],
+                rawOutput: [],
                 output: [],
                 items: [],
             }
@@ -163,7 +164,36 @@
                 }
             },
             saveOutput(jsonData) {
-                console.log(jsonData);
+                this.rawOutput = jsonData;
+
+                axios({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'post',
+                    url: '/dashboard/crawlers/' + this.crawlerID + '/output',
+                    data: {
+                        output: this.rawOutput
+                    }
+                })
+                    .then(response => {
+                        if (response.status === 201) {
+                            iziToast.success({
+                                title: 'Success!',
+                                message: 'Output format changed successfully.',
+                                position: 'topRight'
+                            })
+                        } else {
+                            iziToast.error({
+                                title: 'Error!',
+                                message: 'Output format not saved',
+                                position: 'topRight'
+                            })
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
             }
         },
         mounted() {

@@ -74,4 +74,9 @@ class CrawlerController extends Controller
 
         return response()->json($crawler->output, 200);
     }
+
+    public function saveOutput(Request $request, $id)
+    {
+        dd($request);
+    }
 }

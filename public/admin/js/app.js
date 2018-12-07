@@ -30630,7 +30630,7 @@ exports = module.exports = __webpack_require__(43)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -31063,6 +31063,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             crawlerID: document.getElementById('dashboard').dataset.crawler,
             process: [],
+            rawOutput: [],
             output: [],
             items: []
         };
@@ -31149,7 +31150,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }
         },
         saveOutput: function saveOutput(jsonData) {
-            console.log(jsonData);
+            this.rawOutput = jsonData;
+
+            axios({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                method: 'post',
+                url: '/dashboard/crawlers/' + this.crawlerID + '/output',
+                data: {
+                    output: this.rawOutput
+                }
+            }).then(function (response) {
+                if (response.status === 201) {
+                    iziToast.success({
+                        title: 'Success!',
+                        message: 'Output format changed successfully.',
+                        position: 'topRight'
+                    });
+                } else {
+                    iziToast.error({
+                        title: 'Error!',
+                        message: 'Output format not saved',
+                        position: 'topRight'
+                    });
+                }
+            }).catch(function (error) {
+                console.log(error);
+            });
         }
     },
     mounted: function mounted() {
