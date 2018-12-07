@@ -56,7 +56,9 @@
                     <div class="dd">
                         <ol class="dd-list">
                             <li v-for="format in output" class="dd-item" :data-reference="format.reference">
-                                <div class="dd-handle">{{ format.name }}</div>
+                                <div class="dd-handle">
+                                    <i class="fa fa-bars"></i> {{ format.name }}
+                                </div>
                             </li>
                         </ol>
                     </div>
@@ -77,7 +79,7 @@
                 process:[],
                 rawOutput: [],
                 output: [],
-                items: [],
+                items: []
             }
         },
         computed: {
@@ -86,6 +88,9 @@
             }
         },
         methods: {
+            /**
+             * Get the Crawler Items
+             */
             getItems() {
                 axios.get('/dashboard/crawlers/' + this.crawlerID + '/items')
                     .then(response => {
@@ -96,6 +101,9 @@
                         console.log(error);
                     })
             },
+            /**
+             * Get the Process JSON
+             */
             getProcess() {
                 axios.get('/dashboard/crawlers/' + this.crawlerID + '/process')
                     .then(response => {
@@ -110,6 +118,9 @@
                         console.log(error);
                     })
             },
+            /**
+             * Save the process JSON into database on change
+             */
             saveProcess() {
                 axios({
                     headers: {
@@ -140,6 +151,9 @@
                         console.log(error);
                     })
             },
+            /**
+             * Get the output JSON from database if it is null, generate the output format from process items.
+             */
             getOutputFormat() {
                 axios.get('/dashboard/crawlers/' + this.crawlerID + '/output')
                     .then(response => {
@@ -154,6 +168,9 @@
                         console.log(error);
                     })
             },
+            /**
+             * Generates the output format from process items.
+             */
             generateOutput() {
                 for(let i = 0; i < this.process.length; i++) {
                     let singleItem = {
@@ -163,6 +180,10 @@
                     this.output.push(singleItem);
                 }
             },
+            /**
+             * Saves the output format on change
+             * @param jsonData
+             */
             saveOutput(jsonData) {
                 this.rawOutput = jsonData;
 
@@ -182,7 +203,8 @@
                                 title: 'Success!',
                                 message: 'Output format changed successfully.',
                                 position: 'topRight'
-                            })
+                            });
+                            this.getOutputFormat();
                         } else {
                             iziToast.error({
                                 title: 'Error!',
