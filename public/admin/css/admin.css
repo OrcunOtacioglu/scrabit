@@ -25,3 +25,11 @@ body {
 section {
     z-index: unset !important;
 }
+.dd-handle {
+    border: 1px solid #eee !important;
+    background: #fff !important;
+    border-radius: 6px !important;
+    height: unset !important;
+    padding: 10px !important;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.03) !important;
+}
