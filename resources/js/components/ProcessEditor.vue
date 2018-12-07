@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <!-- Process List -->
         <div class="col-md-7">
             <div class="card card-primary">
                 <div class="card-header">
@@ -43,6 +44,26 @@
                 </div>
             </div>
         </div>
+        <!-- End Process List -->
+
+        <!-- Output List -->
+        <div class="col-md-7">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h4>Output Format</h4>
+                </div>
+                <div class="card-body">
+                    <div class="dd">
+                        <ol class="dd-list">
+                            <li v-for="format in output" class="dd-item" :data-reference="format.reference">
+                                <div class="dd-handle">{{ format.name }}</div>
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Output List -->
     </div>
 </template>
 
@@ -82,6 +103,7 @@
                         } else {
                             this.process = response.data;
                         }
+                        this.getOutputFormat();
                     })
                     .catch(error => {
                         console.log(error);
@@ -116,6 +138,32 @@
                     .catch(error => {
                         console.log(error);
                     })
+            },
+            getOutputFormat() {
+                axios.get('/dashboard/crawlers/' + this.crawlerID + '/output')
+                    .then(response => {
+                        if (Object.keys(response.data).length === 0 && response.data.constructor === Object) {
+                            this.generateOutput();
+                        } else {
+                            this.output = response.data;
+                        }
+                        $('.dd-empty').remove();
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            },
+            generateOutput() {
+                for(let i = 0; i < this.process.length; i++) {
+                    let singleItem = {
+                        reference: this.process[i]['reference'],
+                        name: this.process[i]['name']
+                    };
+                    this.output.push(singleItem);
+                }
+            },
+            saveOutput(jsonData) {
+                console.log(jsonData);
             }
         },
         mounted() {

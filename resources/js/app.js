@@ -29,6 +29,6 @@ Vue.component('process-editor', require('./components/ProcessEditor.vue'));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-const app = new Vue({
+const dashboard = new Vue({
     el: '#dashboard'
 });

@@ -1113,7 +1113,7 @@ Vue.component('process-editor', __webpack_require__(40));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
+var dashboard = new Vue({
   el: '#dashboard'
 });
 
@@ -30630,7 +30630,7 @@ exports = module.exports = __webpack_require__(43)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -31034,6 +31034,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -31071,6 +31092,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 } else {
                     _this2.process = response.data;
                 }
+                _this2.getOutputFormat();
             }).catch(function (error) {
                 console.log(error);
             });
@@ -31102,6 +31124,32 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).catch(function (error) {
                 console.log(error);
             });
+        },
+        getOutputFormat: function getOutputFormat() {
+            var _this3 = this;
+
+            axios.get('/dashboard/crawlers/' + this.crawlerID + '/output').then(function (response) {
+                if (Object.keys(response.data).length === 0 && response.data.constructor === Object) {
+                    _this3.generateOutput();
+                } else {
+                    _this3.output = response.data;
+                }
+                $('.dd-empty').remove();
+            }).catch(function (error) {
+                console.log(error);
+            });
+        },
+        generateOutput: function generateOutput() {
+            for (var i = 0; i < this.process.length; i++) {
+                var singleItem = {
+                    reference: this.process[i]['reference'],
+                    name: this.process[i]['name']
+                };
+                this.output.push(singleItem);
+            }
+        },
+        saveOutput: function saveOutput(jsonData) {
+            console.log(jsonData);
         }
     },
     mounted: function mounted() {
@@ -33228,6 +33276,35 @@ var render = function() {
           1
         )
       ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "col-md-7" }, [
+      _c("div", { staticClass: "card card-primary" }, [
+        _vm._m(2),
+        _vm._v(" "),
+        _c("div", { staticClass: "card-body" }, [
+          _c("div", { staticClass: "dd" }, [
+            _c(
+              "ol",
+              { staticClass: "dd-list" },
+              _vm._l(_vm.output, function(format) {
+                return _c(
+                  "li",
+                  {
+                    staticClass: "dd-item",
+                    attrs: { "data-reference": format.reference }
+                  },
+                  [
+                    _c("div", { staticClass: "dd-handle" }, [
+                      _vm._v(_vm._s(format.name))
+                    ])
+                  ]
+                )
+              })
+            )
+          ])
+        ])
+      ])
     ])
   ])
 }
@@ -33267,6 +33344,14 @@ var staticRenderFns = [
       _vm._v(
         "\n                        There are no steps to show. Start with adding a step.\n                    "
       )
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "card-header" }, [
+      _c("h4", [_vm._v("Output Format")])
     ])
   }
 ]
