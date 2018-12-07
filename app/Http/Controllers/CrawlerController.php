@@ -67,4 +67,11 @@ class CrawlerController extends Controller
 
         return response()->json($crawler, 201);
     }
+
+    public function getOutput($id)
+    {
+        $crawler = Crawler::findOrFail($id);
+
+        return response()->json($crawler->output, 200);
+    }
 }
