@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class CrawlerController extends Controller
 {
+    /**
+     * Lists all the crawlers
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function index()
     {
         $crawlers = Crawler::all();
@@ -16,11 +21,22 @@ class CrawlerController extends Controller
         return view('dashboard.entities.crawler.list', compact('crawlers'));
     }
 
+    /**
+     * Show the crawler creation page
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function create()
     {
         return view('dashboard.entities.crawler.create');
     }
 
+    /**
+     * Stores the new created Crawler into database
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $crawler = new Crawler();
@@ -36,6 +52,12 @@ class CrawlerController extends Controller
         return redirect()->action('CrawlerController@edit', ['id' => $crawler->id]);
     }
 
+    /**
+     * Shows the edit form of the crawler
+     *
+     * @param $id
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function edit($id)
     {
         $crawler = Crawler::findOrFail($id);
@@ -43,6 +65,12 @@ class CrawlerController extends Controller
         return view('dashboard.entities.crawler.edit', compact('crawler'));
     }
 
+    /**
+     * Returns all Crawler Items
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getItems($id)
     {
         $crawler = Crawler::findOrFail($id);
@@ -50,6 +78,12 @@ class CrawlerController extends Controller
         return response()->json($crawler->items, 200);
     }
 
+    /**
+     * Returns Crawler process
+     *
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getProcess($id)
     {
         $crawler = Crawler::findOrFail($id);
@@ -57,6 +91,13 @@ class CrawlerController extends Controller
         return response()->json(json_decode($crawler->process), 200);
     }
 
+    /**
+     * Saves Crawler process
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function saveProcess(Request $request, $id)
     {
         $crawler = Crawler::findOrFail($id);
