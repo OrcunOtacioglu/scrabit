@@ -21,7 +21,7 @@
 @stop
 
 @section('content')
-    <process-editor></process-editor>
+    <process-editor ref="processor"></process-editor>
     @include('dashboard.entities.item.partials.create-modal')
 @stop
 

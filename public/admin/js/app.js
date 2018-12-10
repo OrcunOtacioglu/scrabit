@@ -1113,7 +1113,7 @@ Vue.component('process-editor', __webpack_require__(40));
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-var app = new Vue({
+var dashboard = new Vue({
   el: '#dashboard'
 });
 
@@ -30630,7 +30630,7 @@ exports = module.exports = __webpack_require__(43)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -31034,6 +31034,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -31042,6 +31044,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             crawlerID: document.getElementById('dashboard').dataset.crawler,
             process: [],
+            rawOutput: [],
             output: [],
             items: []
         };
@@ -31052,6 +31055,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     methods: {
+        /**
+         * Get the Crawler Items
+         */
         getItems: function getItems() {
             var _this = this;
 
@@ -31062,6 +31068,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+
+        /**
+         * Get the Process JSON
+         */
         getProcess: function getProcess() {
             var _this2 = this;
 
@@ -31075,6 +31085,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 console.log(error);
             });
         },
+
+        /**
+         * Save the process JSON into database on change
+         */
         saveProcess: function saveProcess() {
             axios({
                 headers: {

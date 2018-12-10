@@ -1,5 +1,6 @@
 <template>
     <div class="row">
+        <!-- Process List -->
         <div class="col-md-7">
             <div class="card card-primary">
                 <div class="card-header">
@@ -43,6 +44,7 @@
                 </div>
             </div>
         </div>
+        <!-- End Process List -->
     </div>
 </template>
 
@@ -54,8 +56,9 @@
             return {
                 crawlerID: document.getElementById('dashboard').dataset.crawler,
                 process:[],
+                rawOutput: [],
                 output: [],
-                items: [],
+                items: []
             }
         },
         computed: {
@@ -64,6 +67,9 @@
             }
         },
         methods: {
+            /**
+             * Get the Crawler Items
+             */
             getItems() {
                 axios.get('/dashboard/crawlers/' + this.crawlerID + '/items')
                     .then(response => {
@@ -74,6 +80,9 @@
                         console.log(error);
                     })
             },
+            /**
+             * Get the Process JSON
+             */
             getProcess() {
                 axios.get('/dashboard/crawlers/' + this.crawlerID + '/process')
                     .then(response => {
@@ -87,6 +96,9 @@
                         console.log(error);
                     })
             },
+            /**
+             * Save the process JSON into database on change
+             */
             saveProcess() {
                 axios({
                     headers: {
@@ -116,7 +128,7 @@
                     .catch(error => {
                         console.log(error);
                     })
-            }
+            },
         },
         mounted() {
             this.getItems();
