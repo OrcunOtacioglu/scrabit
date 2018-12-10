@@ -45,27 +45,6 @@
             </div>
         </div>
         <!-- End Process List -->
-
-        <!-- Output List -->
-        <div class="col-md-7">
-            <div class="card card-primary">
-                <div class="card-header">
-                    <h4>Output Format</h4>
-                </div>
-                <div class="card-body">
-                    <div class="dd">
-                        <ol class="dd-list">
-                            <li v-for="format in output" class="dd-item" :data-reference="format.reference">
-                                <div class="dd-handle">
-                                    <i class="fa fa-bars"></i> {{ format.name }}
-                                </div>
-                            </li>
-                        </ol>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Output List -->
     </div>
 </template>
 
@@ -112,7 +91,6 @@
                         } else {
                             this.process = response.data;
                         }
-                        this.getOutputFormat();
                     })
                     .catch(error => {
                         console.log(error);
@@ -151,72 +129,6 @@
                         console.log(error);
                     })
             },
-            /**
-             * Get the output JSON from database if it is null, generate the output format from process items.
-             */
-            getOutputFormat() {
-                axios.get('/dashboard/crawlers/' + this.crawlerID + '/output')
-                    .then(response => {
-                        if (Object.keys(response.data).length === 0 && response.data.constructor === Object) {
-                            this.generateOutput();
-                        } else {
-                            this.output = response.data;
-                        }
-                        $('.dd-empty').remove();
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            },
-            /**
-             * Generates the output format from process items.
-             */
-            generateOutput() {
-                for(let i = 0; i < this.process.length; i++) {
-                    let singleItem = {
-                        reference: this.process[i]['reference'],
-                        name: this.process[i]['name']
-                    };
-                    this.output.push(singleItem);
-                }
-            },
-            /**
-             * Saves the output format on change
-             * @param jsonData
-             */
-            saveOutput(jsonData) {
-                this.rawOutput = jsonData;
-
-                axios({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    method: 'post',
-                    url: '/dashboard/crawlers/' + this.crawlerID + '/output',
-                    data: {
-                        output: this.rawOutput
-                    }
-                })
-                    .then(response => {
-                        if (response.status === 201) {
-                            iziToast.success({
-                                title: 'Success!',
-                                message: 'Output format changed successfully.',
-                                position: 'topRight'
-                            });
-                            this.getOutputFormat();
-                        } else {
-                            iziToast.error({
-                                title: 'Error!',
-                                message: 'Output format not saved',
-                                position: 'topRight'
-                            })
-                        }
-                    })
-                    .catch(error => {
-                        console.log(error);
-                    })
-            }
         },
         mounted() {
             this.getItems();

@@ -6,7 +6,6 @@
 
 @section('custom.css')
     <link rel="stylesheet" href="{{ asset('global/izitoast/css/iziToast.min.css') }}">
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.min.css">
 @stop
 
 @section('data.sets')
@@ -28,14 +27,4 @@
 
 @section('footer.scripts')
     <script src="{{ asset('global/izitoast/js/iziToast.min.js') }}"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/nestable2/1.6.0/jquery.nestable.min.js"></script>
-    <script>
-        $('.dd').nestable({
-            callback: function (l, e) {
-                let serialized = $('.dd').nestable('serialize');
-                dashboard.__vue__.$refs.processor.saveOutput(serialized);
-            },
-            maxDepth: 2
-        });
-    </script>
 @stop

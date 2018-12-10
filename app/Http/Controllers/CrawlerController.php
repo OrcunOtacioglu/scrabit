@@ -68,38 +68,4 @@ class CrawlerController extends Controller
 
         return response()->json($crawler, 201);
     }
-
-    public function getOutput($id)
-    {
-        $crawler = Crawler::findOrFail($id);
-
-        return response()->json(json_decode($crawler->output, true), 200);
-    }
-
-    public function saveOutput(Request $request, $id)
-    {
-        $crawler = Crawler::findOrFail($id);
-        $output = $request->output;
-
-        for ($i = 0; $i < sizeof($output); $i++) {
-            $item = Item::where('reference', '=', $output[$i]['reference'])->first();
-
-            $output[$i]['name'] = $item->name;
-
-            if (is_array($output[$i]['children'])) {
-                for ($j = 0; $j < sizeof($output[$i]['children']); $j++) {
-                    $item = Item::where('reference', '=', $output[$i]['children'][$j]['reference'])->first();
-
-                    $output[$i]['children'][$j]['name'] = $item->name;
-                }
-            }
-        }
-
-        $crawler->output = json_encode($output, true);
-
-        $crawler->updated_at = Carbon::now();
-        $crawler->save();
-
-        return response()->json($output, 201);
-    }
 }

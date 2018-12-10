@@ -20,8 +20,6 @@ Route::group(['prefix' => 'dashboard', 'middleware' => 'auth'], function () {
     Route::get('/crawlers/{id}/items', 'CrawlerController@getItems');
     Route::get('/crawlers/{id}/process', 'CrawlerController@getProcess');
     Route::post('/crawlers/{id}/process', 'CrawlerController@saveProcess');
-    Route::get('/crawlers/{id}/output', 'CrawlerController@getOutput');
-    Route::post('/crawlers/{id}/output', 'CrawlerController@saveOutput');
 });
 
 Auth::routes();
